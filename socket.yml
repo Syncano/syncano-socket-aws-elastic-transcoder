@@ -28,7 +28,7 @@ endpoints:
     description: |
       Does the job of transcoding. A job converts a file into up to 30 formats.
       Visit link to know more about request parameters
-      (http://docs.aws.amazon.com/elastictranscoder/latest/developerguide/create-job.html#create-job-requests).
+      (http://docs.aws.amazon.com/elastictranscoder/latest/developerguide/create-job.html#create-job-requests)
     parameters:
       PipelineId:
         type: string
@@ -471,11 +471,11 @@ endpoints:
               "StatusCode": 400
             }
   test_role:
-    file: test_role.js
+    file: pipeline_role.js
     description: |
       Endpoint test the settings for a pipeline to ensure that Elastic Transcoder can create and process jobs.
       Visit link to know more about request parameters
-      (http://docs.aws.amazon.com/elastictranscoder/latest/developerguide/test-pipeline-role.html).
+      (http://docs.aws.amazon.com/elastictranscoder/latest/developerguide/test-pipeline-role.html)
     parameters:
       InputBucket:
         type: string
