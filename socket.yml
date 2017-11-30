@@ -1,20 +1,68 @@
 name: aws-elastic-transcoder
-description: Description of syncano-socket-aws-elastic-transcoder
+description: Amazon Elastic Transcoder is a service that enables media transcoding in the cloud.
 version: 0.0.1
+keywords:
+  - aws
+  - elastic-transcoder
+config:
+  AWS_REGION:
+    description: AWS region
+    long_description: |
+      On your AWS Console, search for Rekognition to check supported regions and select one (e.g, us-east-1 )
+    required: true
+  AWS_SECRET_ACCESS_KEY:
+    description: AWS secret access key
+    long_description: |
+      Visit link to know more about managing keys
+      (http://docs.aws.amazon.com/general/latest/gr/managing-aws-access-keys.html).
+    required: true
+  AWS_ACCESS_KEY_ID:
+    description: AWS access key id
+    long_description: |
+      Visit link to know more about managing keys
+      (http://docs.aws.amazon.com/general/latest/gr/managing-aws-access-keys.html).
+    required: true
 
 endpoints:
-  hello:
-    description: Hello world!
-    file: hello.js
+  create_job:
+    description: |
+      Does the job of transcoding. A job converts a file into up to 30 formats.
+      Visit link to know more about request parameters
+      (http://docs.aws.amazon.com/elastictranscoder/latest/developerguide/create-job.html#create-job-requests).
     parameters:
-      firstname:
+      PipelineId:
         type: string
-        description: "First name of the person you want to greet"
-        example: "Tyler"
-      lastname:
+        description: "Pipeline to use for transcoding"
+        example: "151196414944"
+      Inputs:
+        type: array
+        description: "Information about the files that you're transcoding"
+        example: |
+          "Inputs": [
+            {
+              "Key": "name of the file to transcode",
+            },
+          ]
+      Outputs:
+        type: array
+        description: "Information about the output files. You can create a maximum of 30 outputs per job"
+        example: |
+          "Outputs": [
+            {
+              "Key": "name of the transcoded file",
+              "PresetId": "preset to use for the job",
+            },
+          ]
+      OutputKeyPrefix:
         type: string
-        description: "Last name of the person you want to greet"
-        example: "Durden"
+        description: "prefix for file names in Amazon S3 bucket"
+        example: "transcoded/"
+      Playlists:
+        type: array
+        description: "Fragmented MP4/MPEG-TS Outputs Only (Optional)."
+      UserMetadata:
+        type: array
+        description: "User-defined metadata that you want to associate with an Elastic Transcoder job (Optional)."
     response:
       mimetype: application/json
       examples:
@@ -23,12 +71,266 @@ endpoints:
           description: Success
           example: |
             {
-            "message": "Hello Tyler Durden!"
+              "message": "Job created."
             }
         -
           exit_code: 400
           description: Failed
           example: |
             {
-              "message": "You have to send "firstname" and "lastname" arguments!"
+              "StatusCode": 400
+            }
+  read_job:
+    description: Get the detailed information about a job.
+    parameters:
+      Id:
+        type: string
+        description: "The identifier of the job for which you want to get detailed information"
+        example: "15118734meeow"
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+          example: |
+            {
+              "message": "Job details."
+            }
+        -
+          exit_code: 400
+          description: Failed
+          example: |
+            {
+              "StatusCode": 400
+            }
+  cancel_job:
+    description: Cancel a job that Elastic Transcoder has not begun to process.
+    parameters:
+      Id:
+        type: string
+        description: "The identifier of the job that you want to cancel"
+        example: "15118734meeow"
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+          example: |
+            {
+              "Success": true
+            }
+        -
+          exit_code: 400
+          description: Failed
+          example: |
+            {
+              "StatusCode": 400
+            }
+  list_jobs_by_pipeline:
+    description: Gets a list of the jobs currently in a pipeline.
+    parameters:
+      PipelineId:
+        type: string
+        description: "The ID of the pipeline for which you want to get job information."
+        example: "151196414944meeow"
+      Ascending:
+        type: string
+        description: "To list jobs in chronological order, enter true while false for reverse order."
+        example: "true"
+      PageToken:
+        type: string
+        description: |
+          (Optional) When more than one page of results returned, use PageToken in subsequent GET requests
+          to get each successive page of result
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+          example: |
+            {
+              "message": "List of jobs in pipeline."
+            }
+        -
+          exit_code: 400
+          description: Failed
+          example: |
+            {
+              "StatusCode": 400
+            }
+  list_jobs_by_status:
+    description: Gets a list of the jobs that have a specified status.
+    parameters:
+      Status:
+        type: string
+        description: "Specify status of job: Submitted, Progressing, Complete, Canceled, or Error."
+        example: "Error"
+      Ascending:
+        type: string
+        description: "To list jobs in chronological order, enter true while false for reverse order."
+        example: "true"
+      PageToken:
+        type: string
+        description: |
+          (Optional) When more than one page of results returned, use PageToken in subsequent GET requests
+          to get each successive page of result
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+          example: |
+            {
+              "message": "List of jobs with status Error."
+            }
+        -
+          exit_code: 400
+          description: Failed
+          example: |
+            {
+              "StatusCode": 400
+            }
+  create_pipeline:
+    description: |
+      Endpoint creates a pipeline with settings that you specify.
+      Visit link to know more about request parameters
+      (http://docs.aws.amazon.com/elastictranscoder/latest/developerguide/create-pipeline.html).
+    parameters:
+      Name:
+        type: string
+        description: "Pipeline name"
+        example: "Awspipeline"
+      InputBucket:
+        type: string
+        description: "Amazon S3 bucket that contains files to transcode."
+        example: "AwsInputBucket"
+      OutputBucket:
+        type: string
+        description: "The Amazon S3 bucket in which you want Elastic Transcoder to save the transcoded files."
+        example: "AwsOutputBucket"
+      Role:
+        type: string
+        description: "IAM ARN role role that you want Elastic Transcoder to use to create the pipeline."
+      AwsKmsKeyArn:
+        type: string
+        description: "(Optional) AWS-KMS key arn of the AWS-KMS key you want to use with this pipeline."
+        example: "Awspipeline"
+      Notifications:
+        type: object
+        description: "(Optional) The Amazon Simple Notification Service (Amazon SNS) topic that you want to notify to report job status."
+        example: |
+          "Notifications": {
+            "Progressing": "SNS topic to notify when job process started",
+            "Completed": "SNS topic to notify when job process finished",
+            "Warning": "SNS topic to notify when job encounters a warning condition",
+            "Error": "SNS topic to notify when job encounters an error condition",
+          }
+      ContentConfig:
+        type: object
+        description: |
+          The ContentConfig object specifies information about the Amazon S3 bucket in which you want
+          Elastic Transcoder to save transcoded files and playlists.
+      ThumbnailConfig:
+        type: object
+        description: |
+          (Use this plus ContentConfig, or use OutputBucket)
+          The ThumbnailConfig object specifies information about the Amazon S3 bucket in which you want
+          Elastic Transcoderto save thumbnail files
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+          example: |
+            {
+              "message": "Pipeline created."
+            }
+        -
+          exit_code: 400
+          description: Failed
+          example: |
+            {
+              "StatusCode": 400
+            }
+  list_pipelines:
+    description: Gets a list of the pipelines associated with the current AWS account.
+    parameters:
+      Ascending:
+        type: string
+        description: "To list pipelines in chronological order, enter true while false for reverse order."
+        example: "true"
+      PageToken:
+        type: string
+        description: |
+          (Optional) When more than one page of results returned, use PageToken in subsequent GET requests
+          to get each successive page of result
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+          example: |
+            {
+              "message": "List of pipelines."
+            }
+        -
+          exit_code: 400
+          description: Failed
+          example: |
+            {
+              "StatusCode": 400
+            }
+  read_pipeline:
+    description: Get the detailed information about a pipeline.
+    parameters:
+      Id:
+        type: string
+        description: "The identifier of the pipeline to read"
+        example: "15118734meeow"
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+          example: |
+            {
+              "message": "Pipeline details."
+            }
+        -
+          exit_code: 400
+          description: Failed
+          example: |
+            {
+              "StatusCode": 400
+            }
+  delete_pipeline:
+    description: Endpoint that removes a pipeline.
+    parameters:
+      Id:
+        type: string
+        description: "The identifier of the pipeline that you want to delete"
+        example: "15118734meeow"
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+          example: |
+            {
+              "Success": true
+            }
+        -
+          exit_code: 400
+          description: Failed
+          example: |
+            {
+              "StatusCode": 400
             }
