@@ -6,10 +6,9 @@ export default (ctx) => {
 
   const awsElasticTranscoder = new ElasticTranscoder(ctx.config);
 
-  return awsElasticTranscoder.doCall('createJob', ctx.args)
-    .then((data) => {
-      data.message = 'Job created.';
-      return response.json(data);
+  return awsElasticTranscoder.doCall('deletePreset', ctx.args.Id)
+    .then((res) => {
+      return response.json(res);
     })
     .catch((err) => {
       return response.json(err, 400);

@@ -6,9 +6,9 @@ export default (ctx) => {
 
   const awsElasticTranscoder = new ElasticTranscoder(ctx.config);
 
-  return awsElasticTranscoder.doCall('createJob', ctx.args)
+  return awsElasticTranscoder.doCall('readPreset', ctx.args.Id)
     .then((data) => {
-      data.message = 'Job created.';
+      data.message = 'Preset details.';
       return response.json(data);
     })
     .catch((err) => {

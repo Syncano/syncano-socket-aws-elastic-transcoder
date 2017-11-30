@@ -291,7 +291,7 @@ endpoints:
     parameters:
       Id:
         type: string
-        description: "The identifier of the pipeline to read"
+        description: "The identifier of the pipeline to get detailed information"
         example: "15118734meeow"
     response:
       mimetype: application/json
@@ -508,6 +508,54 @@ endpoints:
                 "The role arn:aws:iam::123456789012:role/transcode-service does not have access to the topic: arn:aws:sns:us-east-1:111222333444:ETS_Errors"
               ],
               "Success": "false"
+            }
+        -
+          exit_code: 400
+          description: Failed
+          example: |
+            {
+              "StatusCode": 400
+            }
+  read_preset:
+    description: Get the detailed information about a pipeline.
+    parameters:
+      Id:
+        type: string
+        description: "The identifier of the preset to get detailed information"
+        example: "5555555555555-abcde5"
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+          example: |
+            {
+              "message": "Preset details."
+            }
+        -
+          exit_code: 400
+          description: Failed
+          example: |
+            {
+              "StatusCode": 400
+            }
+  delete_preset:
+    description: Endpoint that deletes a preset.
+    parameters:
+      Id:
+        type: string
+        description: "The identifier of the preset that you want to delete"
+        example: "5555555555555-abcde5"
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+          example: |
+            {
+              "Success": true
             }
         -
           exit_code: 400

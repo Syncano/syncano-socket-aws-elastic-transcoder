@@ -8,7 +8,8 @@ export default (ctx) => {
 
   return awsElasticTranscoder.doCall('readJob', ctx.args.Id)
     .then((data) => {
-      return response.json({ message: 'Job details.', data });
+      data.message = 'Job details.';
+      return response.json(data);
     })
     .catch((err) => {
       return response.json(err, 400);

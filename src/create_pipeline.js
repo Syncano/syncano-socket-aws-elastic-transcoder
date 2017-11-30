@@ -8,7 +8,8 @@ export default (ctx) => {
 
   return awsElasticTranscoder.doCall('createPipeline', ctx.args)
     .then((data) => {
-      return response.json({ message: 'Pipeline created.', data });
+      data.message = 'Pipeline created.';
+      return response.json(data);
     })
     .catch((err) => {
       return response.json(err, 400);
