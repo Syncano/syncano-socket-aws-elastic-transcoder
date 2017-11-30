@@ -1,5 +1,5 @@
 name: aws-elastic-transcoder
-description: Amazon Elastic Transcoder is a service that enables media transcoding in the cloud.
+description: Amazon Elastic Transcoder integrationg on Syncano.
 version: 0.0.1
 keywords:
   - aws
@@ -38,7 +38,7 @@ endpoints:
         type: array
         description: "Information about the files that you're transcoding"
         example: |
-          "Inputs": [
+          [
             {
               "Key": "name of the file to transcode",
             },
@@ -47,7 +47,7 @@ endpoints:
         type: array
         description: "Information about the output files. You can create a maximum of 30 outputs per job"
         example: |
-          "Outputs": [
+          [
             {
               "Key": "name of the transcoded file",
               "PresetId": "preset to use for the job",
@@ -196,7 +196,7 @@ endpoints:
             }
   create_pipeline:
     description: |
-      Endpoint creates a pipeline with settings that you specify.
+      Endpoint that creates a pipeline with settings that you specify.
       Visit link to know more about request parameters
       (http://docs.aws.amazon.com/elastictranscoder/latest/developerguide/create-pipeline.html).
     parameters:
@@ -214,20 +214,20 @@ endpoints:
         example: "AwsOutputBucket"
       Role:
         type: string
-        description: "IAM ARN role role that you want Elastic Transcoder to use to create the pipeline."
+        description: "IAM ARN role that you want Elastic Transcoder to use to create the pipeline."
       AwsKmsKeyArn:
         type: string
-        description: "(Optional) AWS-KMS key arn of the AWS-KMS key you want to use with this pipeline."
+        description: "AWS-KMS key arn of the AWS-KMS key you want to use with this pipeline."
         example: "Awspipeline"
       Notifications:
         type: object
-        description: "(Optional) The Amazon Simple Notification Service (Amazon SNS) topic that you want to notify to report job status."
+        description: "The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify to report job status"
         example: |
-          "Notifications": {
-            "Progressing": "SNS topic to notify when job process started",
-            "Completed": "SNS topic to notify when job process finished",
-            "Warning": "SNS topic to notify when job encounters a warning condition",
-            "Error": "SNS topic to notify when job encounters an error condition",
+          {
+            "Progressing":"",
+            "Completed":"",
+            "Warning":"",
+            "Error":"arn:aws:sns:us-east-1:111222333444:ET_Errors"
           }
       ContentConfig:
         type: object
@@ -267,7 +267,7 @@ endpoints:
       PageToken:
         type: string
         description: |
-          (Optional) When more than one page of results returned, use PageToken in subsequent GET requests
+          When more than one page of results returned, use PageToken in subsequent GET requests
           to get each successive page of result
     response:
       mimetype: application/json
@@ -310,6 +310,142 @@ endpoints:
             {
               "StatusCode": 400
             }
+  update_pipeline:
+    description: |
+      Endpoint that updates a pipeline with settings that you specify.
+      Visit link to know more about request parameters
+      (http://docs.aws.amazon.com/elastictranscoder/latest/developerguide/update-pipeline.html).
+    parameters:
+      Id:
+        type: string
+        description: "The ID of the pipeline that you want to update"
+        example: "1111111111111-abcde1"
+      Name:
+        type: string
+        description: "The name of the pipeline"
+        example: "Awspipeline"
+      InputBucket:
+        type: string
+        description: "Amazon S3 bucket that contains files to transcode."
+        example: "AwsInputBucket"
+      OutputBucket:
+        type: string
+        description: "The Amazon S3 bucket in which you want Elastic Transcoder to save the transcoded files."
+        example: "AwsOutputBucket"
+      Role:
+        type: string
+        description: "The IAM Amazon Resource Name (ARN) for the role that you want to use to transcode jobs for this pipeline."
+      AwsKmsKeyArn:
+        type: string
+        description: "AWS-KMS key arn of the AWS-KMS key you want to use with this pipeline."
+        example: "Awspipeline"
+      Notifications:
+        type: object
+        description: "The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify to report job status"
+        example: |
+          {
+            "Progressing":"",
+            "Completed":"",
+            "Warning":"",
+            "Error":"arn:aws:sns:us-east-1:111222333444:ET_Errors"
+          }
+      ContentConfig:
+        type: object
+        description: |
+          The ContentConfig object specifies information about the Amazon S3 bucket in which you want
+          Elastic Transcoder to save transcoded files and playlists.
+      ThumbnailConfig:
+        type: object
+        description: |
+          (Use this plus ContentConfig, or use OutputBucket)
+          The ThumbnailConfig object specifies information about the Amazon S3 bucket in which you want
+          Elastic Transcoderto save thumbnail files
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+          example: |
+            {
+              "message": "Pipeline updated."
+            }
+        -
+          exit_code: 400
+          description: Failed
+          example: |
+            {
+              "StatusCode": 400
+            }
+  update_pipeline_by_status:
+    description: Endpoint to pause or reactivate a pipeline, so the pipeline stops or restarts processing jobs.
+    parameters:
+      Id:
+        type: string
+        description: "The identifier of the pipeline to change status"
+        example: "1111111111111-abcde1"
+      Status:
+        type: string
+        description: "The desired status of the pipeline (Active, Paused)"
+        example: "Active"
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+          example: |
+            {
+              "Id":"1111111111111-abcde1",
+              "Status":"Active"
+            }
+        -
+          exit_code: 400
+          description: Failed
+          example: |
+            {
+              "StatusCode": 400
+            }
+  update_pipeline_by_notifications:
+    description: Endpoint to update only Amazon Simple Notification Service (Amazon SNS) notifications for a pipeline.
+    parameters:
+      Id:
+        type: string
+        description: "The identifier of the pipeline to change notification settings"
+        example: "1111111111111-abcde1"
+      Notifications:
+        type: object
+        description: "The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify to report job status"
+        example: |
+          {
+            "Progressing":"",
+            "Completed":"",
+            "Warning":"",
+            "Error":"arn:aws:sns:us-east-1:111222333444:ET_Errors"
+          }
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+          example: |
+            {
+              "Id":"1111111111111-abcde1",
+              "Notifications":{
+                "Progressing":"",
+                "Completed":"",
+                "Warning":"",
+                "Error":"arn:aws:sns:us-east-1:111222333444:ETS_Errors"
+             }
+            }
+        -
+          exit_code: 400
+          description: Failed
+          example: |
+            {
+              "StatusCode": 400
+            }
   delete_pipeline:
     description: Endpoint that removes a pipeline.
     parameters:
@@ -326,6 +462,52 @@ endpoints:
           example: |
             {
               "Success": true
+            }
+        -
+          exit_code: 400
+          description: Failed
+          example: |
+            {
+              "StatusCode": 400
+            }
+  test_role:
+    description: |
+      Endpoint test the settings for a pipeline to ensure that Elastic Transcoder can create and process jobs.
+      Visit link to know more about request parameters
+      (http://docs.aws.amazon.com/elastictranscoder/latest/developerguide/test-pipeline-role.html).
+    parameters:
+      InputBucket:
+        type: string
+        description: "The Amazon S3 bucket that contains media files to be transcoded"
+        example: "AwsInputBucket"
+      OutputBucket:
+        type: string
+        description: "The Amazon S3 bucket that Elastic Transcoder writes transcoded media files to"
+        example: "AwsOutputBucket"
+      Role:
+        type: string
+        description: "The IAM Amazon Resource Name (ARN) for the role that you want Elastic Transcoder to test"
+      Topics:
+        type: object
+        description: "The ARNs of one or more Amazon Simple Notification Service (Amazon SNS) topics that you want the action to send a test notification to"
+        example: |
+          {
+            "arn:aws:sns:us-east-1:111222333444:ETS_Errors",
+            "arn:aws:sns:us-east-1:111222333444:ETS_Progressing"
+          }
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+          example: |
+            {
+              "Messages":[
+                "The role arn:aws:iam::123456789012:role/transcode-service does not have access to the bucket: AwsInputBucket",
+                "The role arn:aws:iam::123456789012:role/transcode-service does not have access to the topic: arn:aws:sns:us-east-1:111222333444:ETS_Errors"
+              ],
+              "Success": "false"
             }
         -
           exit_code: 400
