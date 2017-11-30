@@ -471,6 +471,7 @@ endpoints:
               "StatusCode": 400
             }
   test_role:
+    file: test_role.js
     description: |
       Endpoint test the settings for a pipeline to ensure that Elastic Transcoder can create and process jobs.
       Visit link to know more about request parameters
@@ -516,6 +517,50 @@ endpoints:
             {
               "StatusCode": 400
             }
+  create_preset:
+    description: |
+      Endpoint that creates a preset with settings that you specify.
+      Visit link to know more about request parameters
+      (http://docs.aws.amazon.com/elastictranscoder/latest/developerguide/create-preset.html)
+    parameters:
+      Name:
+        type: string
+        description: "The name of the preset"
+        example: "DefaultPreset"
+      Description:
+        type: string
+        description: "A description of the preset"
+        example: "Use for published videos"
+      Container:
+        type: string
+        description: "The container type for the output file. Valid values include flac, flv, fmp4, gif, mp3, mp4, mpg, mxf, oga, ogg, ts, and webm"
+        example: "flv"
+      Video:
+        type: object
+        description: "Object that specifies the video parameters"
+      Audio:
+        type: object
+        description: "Object that specifies the audio parameters"
+      Thumbnail:
+        type: object
+        description: "Object that specifies the thumbnail parameters if any"
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+          example: |
+            {
+              "message": "Pipeline created."
+            }
+        -
+          exit_code: 400
+          description: Failed
+          example: |
+            {
+              "StatusCode": 400
+            }
   read_preset:
     description: Get the detailed information about a pipeline.
     parameters:
@@ -532,6 +577,35 @@ endpoints:
           example: |
             {
               "message": "Preset details."
+            }
+        -
+          exit_code: 400
+          description: Failed
+          example: |
+            {
+              "StatusCode": 400
+            }
+  list_presets:
+    description: Gets a list of the presets associated with the current AWS account.
+    parameters:
+      Ascending:
+        type: string
+        description: "To list presets in chronological order, enter true while false for reverse order."
+        example: "true"
+      PageToken:
+        type: string
+        description: |
+          When more than one page of results returned, use PageToken in subsequent GET requests
+          to get each successive page of result
+    response:
+      mimetype: application/json
+      examples:
+        -
+          exit_code: 200
+          description: Success
+          example: |
+            {
+              "message": "List of pipelines."
             }
         -
           exit_code: 400
