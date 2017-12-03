@@ -203,7 +203,7 @@ endpoints:
       Name:
         type: string
         description: "Pipeline name"
-        example: "Awspipeline"
+        example: "AwsPipeline"
       InputBucket:
         type: string
         description: "Amazon S3 bucket that contains files to transcode."
@@ -217,10 +217,10 @@ endpoints:
       Role:
         type: string
         description: "IAM ARN role that you want Elastic Transcoder to use to create the pipeline."
+        example: "arn:aws:iam::123456789012:role/Elastic_Transcoder_Default_Role"
       AwsKmsKeyArn:
         type: string
         description: "AWS-KMS key arn of the AWS-KMS key you want to use with this pipeline."
-        example: "Awspipeline"
       Notifications:
         type: object
         description: "The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify to report job status"
@@ -268,7 +268,7 @@ endpoints:
         example: "true"
       PageToken:
         type: string
-        description: |
+        description: >
           When more than one page of results returned, use PageToken in subsequent GET requests
           to get each successive page of result
     response:

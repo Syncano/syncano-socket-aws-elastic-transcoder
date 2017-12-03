@@ -6,7 +6,7 @@ export default (ctx) => {
 
   const awsElasticTranscoder = new ElasticTranscoder(ctx.config);
 
-  return awsElasticTranscoder.doCall('cancelJob', ctx.args.Id)
+  return awsElasticTranscoder.doCall('cancelJob', ctx.args)
     .then((res) => {
       return response.json(res);
     })

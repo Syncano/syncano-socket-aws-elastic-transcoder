@@ -6,7 +6,7 @@ export default (ctx) => {
 
   const awsElasticTranscoder = new ElasticTranscoder(ctx.config);
 
-  return awsElasticTranscoder.doCall('readPreset', ctx.args.Id)
+  return awsElasticTranscoder.doCall('readPreset', ctx.args)
     .then((data) => {
       data.message = 'Preset details.';
       return response.json(data);

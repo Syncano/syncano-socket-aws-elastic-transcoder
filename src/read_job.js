@@ -6,7 +6,7 @@ export default (ctx) => {
 
   const awsElasticTranscoder = new ElasticTranscoder(ctx.config);
 
-  return awsElasticTranscoder.doCall('readJob', ctx.args.Id)
+  return awsElasticTranscoder.doCall('readJob', ctx.args)
     .then((data) => {
       data.message = 'Job details.';
       return response.json(data);

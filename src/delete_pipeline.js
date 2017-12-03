@@ -6,7 +6,7 @@ export default (ctx) => {
 
   const awsElasticTranscoder = new ElasticTranscoder(ctx.config);
 
-  return awsElasticTranscoder.doCall('deletePipeline', ctx.args.Id)
+  return awsElasticTranscoder.doCall('deletePipeline', ctx.args)
     .then((res) => {
       return response.json(res);
     })

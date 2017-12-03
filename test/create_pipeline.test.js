@@ -5,21 +5,26 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-describe('create_collection', () => {
+describe('create_pipeline', () => {
   const config = {
     AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
     AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
     AWS_REGION: process.env.AWS_REGION,
   };
 
-  const args = {collectionId: 'collectionTest'};
+  const args = {
+    Name: 'pipelineTest',
+    InputBucket: process.env.INPUT_BUCKET,
+    OutputBucket: process.env.OUTPUT_BUCKET,
+    Role: process.env.IAM_ROLE
+  };
 
-  it('with valid collection name', (done) => {
-    run('create_collection', {args, config})
+  it('should create pipeline if valid parameters supplied', (done) => {
+    run('create_pipeline', {args, config})
       .then((res) => {
         assert.propertyVal(res, 'code', 200);
-        assert.propertyVal(res, 'mimetype', 'application/json');
-        assert.propertyVal(res.data, 'statusCode', 200);
+        assert.propertyVal(res.data, 'message', 'Pipeline created.');
+        assert.property(res.data, 'Pipeline');
         done();
       })
       .catch((err) => {
@@ -27,15 +32,13 @@ describe('create_collection', () => {
       });
   });
 
-  it('without collection name', (done) => {
-    const argsWithoutData = {};
-
-    run('create_collection', {args: argsWithoutData, config})
+  it('should fail if arguments without pipeline name', (done) => {
+    const argsWithoutPipelineName = Object.assign({}, args, { Name: '' });
+    run('create_pipeline', {args: argsWithoutPipelineName, config})
       .then((res) => {
         assert.propertyVal(res, 'code', 400);
-        assert.propertyVal(res, 'mimetype', 'application/json');
-        assert.propertyVal(res.data, 'code', 'MissingRequiredParameter');
-        assert.propertyVal(res.data, 'message', 'Missing required key \'CollectionId\' in params');
+        assert.property(res.data, 'message');
+        assert.propertyVal(res.data, 'code', 'ValidationException');
         done();
       })
       .catch((err) => {

@@ -6,7 +6,7 @@ export default (ctx) => {
 
   const awsElasticTranscoder = new ElasticTranscoder(ctx.config);
 
-  return awsElasticTranscoder.doCall('readPipeline', ctx.args.Id)
+  return awsElasticTranscoder.doCall('readPipeline', ctx.args)
     .then((data) => {
       data.message = 'Pipeline details.';
       return response.json(data);
