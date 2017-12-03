@@ -11,6 +11,7 @@ export default (ctx) => {
       return response.json(res);
     })
     .catch((err) => {
-      return response.json(err, 400);
+      const statusCode = (err.statusCode) ? err.statusCode : 400;
+      return response.json(err, statusCode);
     });
 };
