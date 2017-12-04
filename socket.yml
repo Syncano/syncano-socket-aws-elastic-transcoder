@@ -1,5 +1,8 @@
 name: aws-elastic-transcoder
 description: Amazon Elastic Transcoder integrationg on Syncano.
+long_description: |
+  Visit link to know more about request parameters
+  http://docs.aws.amazon.com/elastictranscoder/latest/developerguide/api-reference.html
 version: 0.0.1
 keywords:
   - aws
@@ -25,10 +28,7 @@ config:
 
 endpoints:
   create_job:
-    description: |
-      Does the job of transcoding. A job converts a file into up to 30 formats.
-      Visit link to know more about request parameters
-      (http://docs.aws.amazon.com/elastictranscoder/latest/developerguide/create-job.html#create-job-requests)
+    description: Does the job of transcoding. A job converts a file into up to 30 formats.
     parameters:
       PipelineId:
         type: string
@@ -195,10 +195,7 @@ endpoints:
               "StatusCode": 400
             }
   create_pipeline:
-    description: |
-      Endpoint that creates a pipeline with settings that you specify.
-      Visit link to know more about request parameters
-      (http://docs.aws.amazon.com/elastictranscoder/latest/developerguide/create-pipeline.html).
+    description: Endpoint that creates a pipeline with settings that you specify.
     parameters:
       Name:
         type: string
@@ -210,9 +207,7 @@ endpoints:
         example: "AwsInputBucket"
       OutputBucket:
         type: string
-        description: |
-          The Amazon S3 bucket in which you want Elastic Transcoder to save the transcoded files.
-          (Use this, or use ContentConfig:Bucket plus ThumbnailConfig:Bucket)
+        description: The Amazon S3 bucket in which you want Elastic Transcoder to save the transcoded files.
         example: "AwsOutputBucket"
       Role:
         type: string
@@ -233,15 +228,10 @@ endpoints:
           }
       ContentConfig:
         type: object
-        description: |
-          The ContentConfig object specifies information about the Amazon S3 bucket in which you want
-          Elastic Transcoder to save transcoded files and playlists.
+        description: "The ContentConfig object specifies information about the Amazon S3 bucket in which you want to save transcoded files"
       ThumbnailConfig:
         type: object
-        description: |
-          (Use this plus ContentConfig, or use OutputBucket)
-          The ThumbnailConfig object specifies information about the Amazon S3 bucket in which you want
-          Elastic Transcoderto save thumbnail files
+        description: "The ThumbnailConfig object specifies information about the Amazon S3 bucket in which you want to save thumbnail files"
     response:
       mimetype: application/json
       examples:
@@ -313,10 +303,7 @@ endpoints:
               "StatusCode": 400
             }
   update_pipeline:
-    description: |
-      Endpoint that updates a pipeline with settings that you specify.
-      Visit link to know more about request parameters
-      (http://docs.aws.amazon.com/elastictranscoder/latest/developerguide/update-pipeline.html).
+    description: Updates a pipeline with settings that you specidy
     parameters:
       Id:
         type: string
@@ -353,15 +340,10 @@ endpoints:
           }
       ContentConfig:
         type: object
-        description: |
-          The ContentConfig object specifies information about the Amazon S3 bucket in which you want
-          Elastic Transcoder to save transcoded files and playlists.
+        description: "The ContentConfig object specifies information about the Amazon S3 bucket in which you want to save transcoded files"
       ThumbnailConfig:
         type: object
-        description: |
-          (Use this plus ContentConfig, or use OutputBucket)
-          The ThumbnailConfig object specifies information about the Amazon S3 bucket in which you want
-          Elastic Transcoderto save thumbnail files
+        description: "The ThumbnailConfig object specifies information about the Amazon S3 bucket in which you want to save thumbnail files"
     response:
       mimetype: application/json
       examples:
@@ -379,7 +361,7 @@ endpoints:
             {
               "StatusCode": 400
             }
-  update_pipeline_by_status:
+  update_pipeline_status:
     description: Endpoint to pause or reactivate a pipeline, so the pipeline stops or restarts processing jobs.
     parameters:
       Id:
@@ -408,7 +390,7 @@ endpoints:
             {
               "StatusCode": 400
             }
-  update_pipeline_by_notifications:
+  update_pipeline_notifications:
     description: Endpoint to update only Amazon Simple Notification Service (Amazon SNS) notifications for a pipeline.
     parameters:
       Id:
@@ -520,10 +502,7 @@ endpoints:
               "StatusCode": 400
             }
   create_preset:
-    description: |
-      Endpoint that creates a preset with settings that you specify.
-      Visit link to know more about request parameters
-      (http://docs.aws.amazon.com/elastictranscoder/latest/developerguide/create-preset.html)
+    description: "Endpoint that creates a preset with settings that you specify."
     parameters:
       Name:
         type: string

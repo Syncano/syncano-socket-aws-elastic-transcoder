@@ -8,6 +8,9 @@ export default (ctx) => {
 
   return awsElasticTranscoder.doCall('readPipeline', ctx.args)
     .then((data) => {
+      if (!data.Pipeline) {
+        return response.json({ message: 'Pipeline not found.'}, 404);
+      }
       data.message = 'Pipeline details.';
       return response.json(data);
     })

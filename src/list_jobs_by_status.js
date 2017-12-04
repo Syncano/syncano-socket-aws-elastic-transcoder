@@ -8,7 +8,7 @@ export default (ctx) => {
 
   return awsElasticTranscoder.doCall('listJobsByStatus', ctx.args)
     .then((data) => {
-      data.message = `List of jobs with status ${ctx.args.Status}.`;
+      data.message = `List of jobs with status '${ctx.args.Status}'.`;
       return response.json(data);
     })
     .catch((err) => {

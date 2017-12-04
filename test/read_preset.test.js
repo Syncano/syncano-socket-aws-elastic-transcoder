@@ -1,13 +1,12 @@
 import { assert } from 'chai';
 import { run } from 'syncano-test';
-
 import dotenv from 'dotenv';
 
 import ElasticTranscoder from '../src/utils/ElasticTranscoder';
 
 dotenv.config();
 
-describe('read_pipeline', () => {
+describe('read_preset', () => {
   const config = {
     AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
     AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
@@ -18,10 +17,10 @@ describe('read_pipeline', () => {
 
   before((done) => {
     const awsElasticTranscoder = new ElasticTranscoder(config);
-    awsElasticTranscoder.doCall('listPipelines', { Ascending: 'false' })
+    awsElasticTranscoder.doCall('listPresets', { Ascending: 'false' })
       .then((data) => {
-        const pipelines = data.Pipelines;
-        args.Id = pipelines[0].Id;
+        const presets = data.Presets;
+        args.Id = presets[0].Id;
         done();
       })
       .catch((err) => {
@@ -29,11 +28,12 @@ describe('read_pipeline', () => {
       });
   });
 
-  it('should return information about pipeline if Id of pipeline supplied', (done) => {
-    run('read_pipeline', {args, config})
+  it('should return information about preset if valid Id of preset supplied', (done) => {
+    run('read_preset', {args, config})
       .then((res) => {
         assert.propertyVal(res, 'code', 200);
-        assert.propertyVal(res.data.Pipeline, 'Id', args.Id);
+        assert.propertyVal(res.data.Preset, 'Id', args.Id);
+        assert.property(res.data, 'Preset');
         assert.property(res.data, 'message');
         done();
       })
@@ -42,12 +42,12 @@ describe('read_pipeline', () => {
       });
   });
 
-  it('should return message "Pipeline not found" if Id parameter empty', (done) => {
+  it('should return message "Preset not found" if Id parameter empty', (done) => {
     const argsWithEmptyId = Object.assign({}, args, { Id: ''});
-    run('read_pipeline', {args: argsWithEmptyId, config})
+    run('read_preset', {args: argsWithEmptyId, config})
       .then((res) => {
         assert.propertyVal(res, 'code', 404);
-        assert.propertyVal(res.data, 'message', 'Pipeline not found.');
+        assert.propertyVal(res.data, 'message', 'Preset not found.');
         done();
       })
       .catch((err) => {
@@ -57,7 +57,7 @@ describe('read_pipeline', () => {
 
   it('should return "MissingRequiredParameter" if Id parameter absent', (done) => {
     delete args.Id;
-    run('read_pipeline', {args, config})
+    run('read_preset', {args, config})
       .then((res) => {
         assert.propertyVal(res, 'code', 400);
         assert.property(res.data, 'message');

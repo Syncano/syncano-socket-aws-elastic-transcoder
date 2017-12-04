@@ -8,6 +8,9 @@ export default (ctx) => {
 
   return awsElasticTranscoder.doCall('readPreset', ctx.args)
     .then((data) => {
+      if (!data.Preset) {
+        return response.json({ message: 'Preset not found.'}, 404);
+      }
       data.message = 'Preset details.';
       return response.json(data);
     })
