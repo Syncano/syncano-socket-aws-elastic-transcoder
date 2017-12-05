@@ -454,12 +454,8 @@ endpoints:
             {
               "StatusCode": 400
             }
-  test_role:
-    file: pipeline_role.js
-    description: |
-      Endpoint test the settings for a pipeline to ensure that Elastic Transcoder can create and process jobs.
-      Visit link to know more about request parameters
-      (http://docs.aws.amazon.com/elastictranscoder/latest/developerguide/test-pipeline-role.html)
+  pipeline_check_role:
+    description: Endpoint test the settings for a pipeline to ensure that Elastic Transcoder can create and process jobs.
     parameters:
       InputBucket:
         type: string
@@ -473,13 +469,13 @@ endpoints:
         type: string
         description: "The IAM Amazon Resource Name (ARN) for the role that you want Elastic Transcoder to test"
       Topics:
-        type: object
+        type: array
         description: "The ARNs of one or more Amazon Simple Notification Service (Amazon SNS) topics that you want the action to send a test notification to"
         example: |
-          {
+          [
             "arn:aws:sns:us-east-1:111222333444:ETS_Errors",
             "arn:aws:sns:us-east-1:111222333444:ETS_Progressing"
-          }
+          ]
     response:
       mimetype: application/json
       examples:

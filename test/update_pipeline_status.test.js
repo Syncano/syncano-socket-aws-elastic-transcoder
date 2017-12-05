@@ -29,6 +29,19 @@ describe('update_pipeline_status', () => {
       });
   });
 
+  before((done) => {
+    const awsElasticTranscoder = new ElasticTranscoder(config);
+    awsElasticTranscoder.doCall('listPipelines', { Ascending: 'false' })
+      .then((data) => {
+        const pipelines = data.Pipelines;
+        args.Id = pipelines[0].Id;
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
   it('should return information about pipeline with status paused if parameters valid', (done) => {
     run('update_pipeline_status', {args, config})
       .then((res) => {

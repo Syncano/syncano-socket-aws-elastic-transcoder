@@ -7,8 +7,8 @@ export default (ctx) => {
   const awsElasticTranscoder = new ElasticTranscoder(ctx.config);
 
   return awsElasticTranscoder.doCall('cancelJob', ctx.args)
-    .then((res) => {
-      return response.json(res);
+    .then(() => {
+      return response.json({ Success: 'true' });
     })
     .catch((err) => {
       const statusCode = (err.statusCode) ? err.statusCode : 400;
