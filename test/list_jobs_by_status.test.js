@@ -1,22 +1,14 @@
 import { assert, expect } from 'chai';
 import { run } from 'syncano-test';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import config from './utils/helpers';
 
 describe('list_jobs_by_status', () => {
-  const config = {
-    AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
-    AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
-    AWS_REGION: process.env.AWS_REGION,
-  };
-
   const args = {
     Status: 'Complete',
     Ascending: 'true'
   };
 
-  it('should return list jobs with a specified status', (done) => {
+  it('should return jobs list with a specified status', (done) => {
     run('list_jobs_by_status', {args, config})
       .then((res) => {
         assert.propertyVal(res, 'code', 200);
@@ -31,8 +23,8 @@ describe('list_jobs_by_status', () => {
   });
 
   it('should return "MissingRequiredParameter" if Status parameter absent', (done) => {
-    delete args.Status;
-    run('list_jobs_by_status', {args, config})
+    const {Status, ...updatedArgs} = args;
+    run('list_jobs_by_status', {args: updatedArgs, config})
       .then((res) => {
         assert.propertyVal(res, 'code', 400);
         assert.property(res.data, 'message');

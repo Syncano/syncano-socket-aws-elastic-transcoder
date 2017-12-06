@@ -1,18 +1,9 @@
 import { assert } from 'chai';
 import { run } from 'syncano-test';
-import dotenv from 'dotenv';
-
+import config from './utils/helpers';
 import ElasticTranscoder from '../src/utils/ElasticTranscoder';
 
-dotenv.config();
-
 describe('update_pipeline_notifications', () => {
-  const config = {
-    AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
-    AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
-    AWS_REGION: process.env.AWS_REGION,
-  };
-
   const args = {
     Id: '',
     Notifications: {
@@ -25,7 +16,7 @@ describe('update_pipeline_notifications', () => {
 
   before((done) => {
     const awsElasticTranscoder = new ElasticTranscoder(config);
-    awsElasticTranscoder.doCall('listPipelines', { Ascending: 'false' })
+    awsElasticTranscoder.callEndpoint('listPipelines', { Ascending: 'false' })
       .then((data) => {
         const pipelines = data.Pipelines;
         args.Id = pipelines[0].Id;
@@ -53,8 +44,8 @@ describe('update_pipeline_notifications', () => {
     });
 
   it('should return "MissingRequiredParameter" if Id parameter absent', (done) => {
-    delete args.Id;
-    run('update_pipeline_notifications', {args, config})
+    const {Id, ...updatedArgs} = args;
+    run('update_pipeline_notifications', {args: updatedArgs, config})
       .then((res) => {
         assert.propertyVal(res, 'code', 400);
         assert.property(res.data, 'message');

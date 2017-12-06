@@ -1,23 +1,15 @@
 import { assert } from 'chai';
 import { run } from 'syncano-test';
-import dotenv from 'dotenv';
-
+import config from './utils/helpers';
 import ElasticTranscoder from '../src/utils/ElasticTranscoder';
 
-dotenv.config();
-
 describe('cancel_job', () => {
-  const config = {
-    AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
-    AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
-    AWS_REGION: process.env.AWS_REGION,
-  };
-
   const args = { Id: ''};
 
   before((done) => {
     const awsElasticTranscoder = new ElasticTranscoder(config);
-    awsElasticTranscoder.doCall('listJobsByStatus', { Status: 'Submitted', Ascending: 'false' })
+    awsElasticTranscoder.callEndpoint('listJobsByStatus',
+      { Status: 'Submitted', Ascending: 'false' })
       .then((data) => {
         const jobs = data.Jobs;
         args.Id = jobs[0].Id;

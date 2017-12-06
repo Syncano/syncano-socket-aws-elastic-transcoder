@@ -1,16 +1,8 @@
 import { assert, expect } from 'chai';
 import { run } from 'syncano-test';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import config from './utils/helpers';
 
 describe('list_pipelines', () => {
-  const config = {
-    AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
-    AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
-    AWS_REGION: process.env.AWS_REGION,
-  };
-
   const args = {
     Ascending: 'true'
   };

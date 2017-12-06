@@ -1,17 +1,8 @@
 import { assert } from 'chai';
 import { run } from 'syncano-test';
-
-import dotenv from 'dotenv';
-
-dotenv.config();
+import config from './utils/helpers';
 
 describe('create_pipeline', () => {
-  const config = {
-    AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
-    AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
-    AWS_REGION: process.env.AWS_REGION,
-  };
-
   const args = {
     Name: 'pipelineTest',
     InputBucket: process.env.INPUT_BUCKET,

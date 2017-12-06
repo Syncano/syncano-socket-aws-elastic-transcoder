@@ -19,21 +19,35 @@ class ElasticTranscoder {
   }
 
   /**
-   * Do the request to AWS ElasticTranscoder
-   *
+   * Do the request for endpoint
    * @param {string} endpoint
-   * @param {Object} params
-   * @returns {Promise}
+   * @param {object} params
+   * @param {string} responseMessage
+   * @param {boolean} keySuccess
+   * @param {string} paramCheck
+   * @param {string} responseNotFound
+   * @returns {Object} response result
    */
-  doCall(endpoint, params) {
+  callEndpoint(endpoint, params, responseMessage = '', keySuccess = false, paramCheck = '',
+    responseNotFound = '') {
     return new Promise((resolve, reject) => {
       this.ElasticTranscoder[endpoint](params)
         .promise()
-        .then((data) => {
-          resolve(data);
+        .then((res) => {
+          if (paramCheck && !res[paramCheck]) {
+            resolve({message: responseNotFound, statusCode: 404});
+          }
+          if (responseMessage) {
+            res.message = responseMessage;
+          }
+          if (keySuccess) {
+            res.Success = 'true';
+          }
+          resolve({ ...res, statusCode: 200 });
         })
-        .catch((err) => {
-          reject(err);
+        .catch((error) => {
+          const statusCode = (error.statusCode) ? error.statusCode : 400;
+          reject({ error, statusCode });
         });
     });
   }

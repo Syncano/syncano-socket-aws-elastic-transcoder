@@ -1,23 +1,14 @@
 import { assert } from 'chai';
 import { run } from 'syncano-test';
-import dotenv from 'dotenv';
-
+import config from './utils/helpers';
 import ElasticTranscoder from '../src/utils/ElasticTranscoder';
 
-dotenv.config();
-
 describe('delete_pipeline', () => {
-  const config = {
-    AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
-    AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
-    AWS_REGION: process.env.AWS_REGION,
-  };
-
   const args = { Id: ''};
 
   before((done) => {
     const awsElasticTranscoder = new ElasticTranscoder(config);
-    awsElasticTranscoder.doCall('listPipelines', { Ascending: 'false' })
+    awsElasticTranscoder.callEndpoint('listPipelines', { Ascending: 'false' })
       .then((data) => {
         const pipelines = data.Pipelines;
         args.Id = pipelines[0].Id;

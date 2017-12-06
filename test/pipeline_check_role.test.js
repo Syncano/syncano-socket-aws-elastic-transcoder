@@ -1,16 +1,8 @@
 import { assert, expect } from 'chai';
 import { run } from 'syncano-test';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import config from './utils/helpers';
 
 describe('pipeline_check_role', () => {
-  const config = {
-    AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
-    AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
-    AWS_REGION: process.env.AWS_REGION,
-  };
-
   const args = {
     InputBucket: process.env.INPUT_BUCKET,
     OutputBucket: process.env.OUTPUT_BUCKET,
@@ -45,8 +37,8 @@ describe('pipeline_check_role', () => {
   });
 
   it('should return "MissingRequiredParameter" if Topics parameter absent', (done) => {
-    delete args.Topics;
-    run('pipeline_check_role', {args, config})
+    const {Topics, ...updatedArgs} = args;
+    run('pipeline_check_role', {args: updatedArgs, config})
       .then((res) => {
         assert.propertyVal(res, 'code', 400);
         assert.property(res.data, 'message');

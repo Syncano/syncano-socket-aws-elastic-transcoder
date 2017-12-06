@@ -3,16 +3,17 @@ import ElasticTranscoder from './utils/ElasticTranscoder';
 
 export default (ctx) => {
   const {response} = Syncano(ctx);
-
   const awsElasticTranscoder = new ElasticTranscoder(ctx.config);
 
-  return awsElasticTranscoder.doCall('listJobsByPipeline', ctx.args)
-    .then((data) => {
-      data.message = 'List of jobs in pipeline.';
-      return response.json(data);
+  return awsElasticTranscoder.callEndpoint(
+    'listJobsByPipeline', ctx.args, 'List of jobs in pipeline.'
+  )
+    .then((res) => {
+      const {statusCode, ...data} = res;
+      response.json(data, statusCode);
     })
     .catch((err) => {
-      const statusCode = (err.statusCode) ? err.statusCode : 400;
-      return response.json(err, statusCode);
+      const { statusCode, error } = err;
+      response.json(error, statusCode);
     });
 };

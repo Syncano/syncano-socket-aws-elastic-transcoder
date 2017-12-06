@@ -1,16 +1,8 @@
 import { assert } from 'chai';
 import { run } from 'syncano-test';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import config from './utils/helpers';
 
 describe('create_preset', () => {
-  const config = {
-    AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
-    AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
-    AWS_REGION: process.env.AWS_REGION,
-  };
-
   const args = {
     Name: 'presetTest',
     Description: 'Use for published videos',
@@ -40,8 +32,8 @@ describe('create_preset', () => {
   });
 
   it('should fail if arguments without audio, video and thumbnail settings', (done) => {
-    delete args.Audio;
-    run('create_preset', {args, config})
+    const {Audio, ...updatedArgs} = args;
+    run('create_preset', {args: updatedArgs, config})
       .then((res) => {
         assert.propertyVal(res, 'code', 400);
         assert.property(res.data, 'message');
