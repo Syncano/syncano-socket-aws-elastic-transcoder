@@ -1,5 +1,5 @@
 name: aws-elastic-transcoder
-description: Amazon Elastic Transcoder integrationg on Syncano.
+description: Amazon Elastic Transcoder integration on Syncano.
 long_description: |
   Visit link to know more about request parameters
   http://docs.aws.amazon.com/elastictranscoder/latest/developerguide/api-reference.html
@@ -137,7 +137,7 @@ endpoints:
         example: "151196414944meeow"
       Ascending:
         type: string
-        description: "To list jobs in chronological order, enter true while false for reverse order."
+        description: Enter "true" to list jobs in a chronological order and "false" for the reverse order.
         example: "true"
       PageToken:
         type: string
@@ -170,13 +170,11 @@ endpoints:
         example: "Error"
       Ascending:
         type: string
-        description: "To list jobs in chronological order, enter true while false for reverse order."
+        description: Enter "true" to list jobs in a chronological order and "false" for the reverse order.
         example: "true"
       PageToken:
         type: string
-        description: |
-          (Optional) When more than one page of results returned, use PageToken in subsequent GET requests
-          to get each successive page of result
+        description: "(Optional) When more than one page of results returned, use PageToken in subsequent GET requests to get each successive page of result"
     response:
       mimetype: application/json
       examples:
@@ -207,7 +205,7 @@ endpoints:
         example: "AwsInputBucket"
       OutputBucket:
         type: string
-        description: The Amazon S3 bucket in which you want Elastic Transcoder to save the transcoded files.
+        description: "The Amazon S3 bucket in which you want Elastic Transcoder to save the transcoded files"
         example: "AwsOutputBucket"
       Role:
         type: string
@@ -228,10 +226,10 @@ endpoints:
           }
       ContentConfig:
         type: object
-        description: "The ContentConfig object specifies information about the Amazon S3 bucket in which you want to save transcoded files"
+        description: "Specifies information about the Amazon S3 bucket in which you want to save transcoded files"
       ThumbnailConfig:
         type: object
-        description: "The ThumbnailConfig object specifies information about the Amazon S3 bucket in which you want to save thumbnail files"
+        description: "Specifies information about the S3 bucket you want to save thumbnail files. (Use this plus ContentConfig, or use OutputBucket)"
     response:
       mimetype: application/json
       examples:
@@ -254,7 +252,7 @@ endpoints:
     parameters:
       Ascending:
         type: string
-        description: "To list pipelines in chronological order, enter true while false for reverse order."
+        description: Enter "true" to list pipelines in a chronological order and "false" for the reverse order.
         example: "true"
       PageToken:
         type: string
@@ -303,7 +301,7 @@ endpoints:
               "StatusCode": 400
             }
   update_pipeline:
-    description: Updates a pipeline with settings that you specidy
+    description: Updates a pipeline with settings that you specify
     parameters:
       Id:
         type: string
@@ -340,10 +338,10 @@ endpoints:
           }
       ContentConfig:
         type: object
-        description: "The ContentConfig object specifies information about the Amazon S3 bucket in which you want to save transcoded files"
+        description: "Specifies information about the S3 bucket in which you want to save transcoded files"
       ThumbnailConfig:
         type: object
-        description: "The ThumbnailConfig object specifies information about the Amazon S3 bucket in which you want to save thumbnail files"
+        description: "Specifies information about the S3 bucket you want to save thumbnail files. (Use this plus ContentConfig, or use OutputBucket)"
     response:
       mimetype: application/json
       examples:
@@ -455,7 +453,7 @@ endpoints:
               "StatusCode": 400
             }
   pipeline_check_role:
-    description: Endpoint test the settings for a pipeline to ensure that Elastic Transcoder can create and process jobs.
+    description: Endpoint testing the settings for a pipeline to ensure that Elastic Transcoder can create and process jobs.
     parameters:
       InputBucket:
         type: string
@@ -567,7 +565,7 @@ endpoints:
     parameters:
       Ascending:
         type: string
-        description: "To list presets in chronological order, enter true while false for reverse order."
+        description: Enter "true" to list presets in a chronological order and "false" for the reverse order.
         example: "true"
       PageToken:
         type: string
