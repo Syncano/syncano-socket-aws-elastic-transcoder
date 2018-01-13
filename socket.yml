@@ -25,7 +25,7 @@ config:
     required: true
 
 endpoints:
-  create_job:
+  create-job:
     description: Does the job of transcoding. A job converts a file into up to 30 formats.
     parameters:
       PipelineId:
@@ -78,7 +78,7 @@ endpoints:
             {
               "StatusCode": 400
             }
-  read_job:
+  read-job:
     description: Get the detailed information about a job.
     parameters:
       Id:
@@ -102,7 +102,7 @@ endpoints:
             {
               "StatusCode": 400
             }
-  cancel_job:
+  cancel-job:
     description: Cancel a job that Elastic Transcoder has not begun to process.
     parameters:
       Id:
@@ -126,7 +126,7 @@ endpoints:
             {
               "StatusCode": 400
             }
-  list_jobs_by_pipeline:
+  list-jobs-by-pipeline:
     description: Gets a list of the jobs currently in a pipeline.
     parameters:
       PipelineId:
@@ -159,7 +159,7 @@ endpoints:
             {
               "StatusCode": 400
             }
-  list_jobs_by_status:
+  list-jobs-by-status:
     description: Gets a list of the jobs that have a specified status.
     parameters:
       Status:
@@ -190,7 +190,7 @@ endpoints:
             {
               "StatusCode": 400
             }
-  create_pipeline:
+  create-pipeline:
     description: Endpoint that creates a pipeline with settings that you specify.
     parameters:
       Name:
@@ -245,7 +245,7 @@ endpoints:
             {
               "StatusCode": 400
             }
-  list_pipelines:
+  list-pipelines:
     description: Gets a list of the pipelines associated with the current AWS account.
     parameters:
       Ascending:
@@ -274,7 +274,7 @@ endpoints:
             {
               "StatusCode": 400
             }
-  read_pipeline:
+  read-pipeline:
     description: Get the detailed information about a pipeline.
     parameters:
       Id:
@@ -298,7 +298,7 @@ endpoints:
             {
               "StatusCode": 400
             }
-  update_pipeline:
+  update-pipeline:
     description: Updates a pipeline with settings that you specify
     parameters:
       Id:
@@ -357,7 +357,7 @@ endpoints:
             {
               "StatusCode": 400
             }
-  update_pipeline_status:
+  update-pipeline-status:
     description: Endpoint to pause or reactivate a pipeline, so the pipeline stops or restarts processing jobs.
     parameters:
       Id:
@@ -386,7 +386,7 @@ endpoints:
             {
               "StatusCode": 400
             }
-  update_pipeline_notifications:
+  update-pipeline-notifications:
     description: Endpoint to update only Amazon Simple Notification Service (Amazon SNS) notifications for a pipeline.
     parameters:
       Id:
@@ -426,7 +426,7 @@ endpoints:
             {
               "StatusCode": 400
             }
-  delete_pipeline:
+  delete-pipeline:
     description: Endpoint that removes a pipeline.
     parameters:
       Id:
@@ -450,7 +450,7 @@ endpoints:
             {
               "StatusCode": 400
             }
-  pipeline_check_role:
+  pipeline-check-role:
     description: Endpoint testing the settings for a pipeline to ensure that Elastic Transcoder can create and process jobs.
     parameters:
       InputBucket:
@@ -493,7 +493,7 @@ endpoints:
             {
               "StatusCode": 400
             }
-  create_preset:
+  create-preset:
     description: "Endpoint that creates a preset with settings that you specify."
     parameters:
       Name:
@@ -534,7 +534,7 @@ endpoints:
             {
               "StatusCode": 400
             }
-  read_preset:
+  read-preset:
     description: Get the detailed information about a pipeline.
     parameters:
       Id:
@@ -558,7 +558,7 @@ endpoints:
             {
               "StatusCode": 400
             }
-  list_presets:
+  list-presets:
     description: Gets a list of the presets associated with the current AWS account.
     parameters:
       Ascending:
@@ -587,7 +587,7 @@ endpoints:
             {
               "StatusCode": 400
             }
-  delete_preset:
+  delete-preset:
     description: Endpoint that deletes a preset.
     parameters:
       Id:
