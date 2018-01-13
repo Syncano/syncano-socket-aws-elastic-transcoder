@@ -3,7 +3,7 @@ description: Amazon Elastic Transcoder integration on Syncano.
 long_description: |
   Visit link to know more about request parameters
   http://docs.aws.amazon.com/elastictranscoder/latest/developerguide/api-reference.html
-version: 0.0.1
+version: 0.0.2
 keywords:
   - aws
   - elastic-transcoder
@@ -59,7 +59,7 @@ endpoints:
         type: array
         description: "Fragmented MP4/MPEG-TS Outputs Only (Optional)."
       UserMetadata:
-        type: array
+        type: object
         description: "User-defined metadata that you want to associate with an Elastic Transcoder job (Optional)."
     response:
       mimetype: application/json
@@ -135,13 +135,11 @@ endpoints:
         example: "151196414944meeow"
       Ascending:
         type: string
-        description: Enter "true" to list jobs in a chronological order and "false" for the reverse order.
+        description: "Enter 'true' to list jobs in a chronological order and 'false' for the reverse order."
         example: "true"
       PageToken:
         type: string
-        description: |
-          (Optional) When more than one page of results returned, use PageToken in subsequent GET requests
-          to get each successive page of result
+        description: "(Optional) When more than one page of results returned, use PageToken in subsequent GET requests to get each successive page of result"
     response:
       mimetype: application/json
       examples:
@@ -254,9 +252,7 @@ endpoints:
         example: "true"
       PageToken:
         type: string
-        description: >
-          When more than one page of results returned, use PageToken in subsequent GET requests
-          to get each successive page of result
+        description: When more than one page of results returned, use PageToken in subsequent GET requests to get each successive page of result
     response:
       mimetype: application/json
       examples:
@@ -567,9 +563,7 @@ endpoints:
         example: "true"
       PageToken:
         type: string
-        description: |
-          When more than one page of results returned, use PageToken in subsequent GET requests
-          to get each successive page of result
+        description: When more than one page of results returned, use PageToken in subsequent GET requests to get each successive page of result
     response:
       mimetype: application/json
       examples:
