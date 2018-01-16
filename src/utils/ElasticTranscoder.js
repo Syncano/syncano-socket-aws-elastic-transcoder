@@ -35,7 +35,7 @@ class ElasticTranscoder {
         .promise()
         .then((res) => {
           if (paramCheck && !res[paramCheck]) {
-            resolve({message: responseNotFound, statusCode: 404});
+            resolve({ message: responseNotFound, statusCode: 404 });
           }
           if (responseMessage) {
             res.message = responseMessage;
