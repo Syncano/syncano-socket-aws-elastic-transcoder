@@ -53,7 +53,7 @@ This endpoint cancels a job that Elastic Transcoder has not begun to process
 | Id  | string   | The identifier of the job that you want to cancel | 151196414944
 
 #### list-jobs-by-pipeline
-This endpoint cancels a job that Elastic Transcoder has not begun to process
+This endpoint gets a list of the jobs currently in a pipeline
 
 [Aws list-jobs-by-pipeline guide](https://docs.aws.amazon.com/elastictranscoder/latest/developerguide/list-jobs-by-pipeline.html)
 
@@ -139,7 +139,7 @@ This endpoint updates a pipeline with settings that you specify
 | ThumbnailConfig  | object   | Specifies information about the S3 bucket you want to save thumbnail files. (Use this plus ContentConfig, or use OutputBucket) | 
 
 #### update-pipeline-status
-This endpoint to pause or reactivate a pipeline, so the pipeline stops or restarts processing jobs
+Use this endpoint to pause or reactivate a pipeline, so the pipeline stops or restarts processing jobs
 
 [Aws update-pipeline-status guide](https://docs.aws.amazon.com/elastictranscoder/latest/developerguide/update-pipeline-status.html)
 
@@ -151,7 +151,7 @@ This endpoint to pause or reactivate a pipeline, so the pipeline stops or restar
 | Status  | string   | The desired status of the pipeline (Active, Paused) | Active
 
 #### update-pipeline-notifications
-This endpoint to update only Amazon Simple Notification Service (Amazon SNS) notifications for a pipeline.
+Use this endpoint to update only Amazon Simple Notification Service (Amazon SNS) notifications for a pipeline.
 
 [Aws update-pipeline-notifications guide](https://docs.aws.amazon.com/elastictranscoder/latest/developerguide/update-pipeline-notifications.html)
 
@@ -174,7 +174,7 @@ This endpoint removes a pipeline
 | Id  | string   | The identifier of the pipeline to remove | 15118734meeow
 
 #### pipeline-check-role
-This endpoint testing the settings for a pipeline to ensure that Elastic Transcoder can create and process jobs
+This endpoint tests the settings for a pipeline to ensure that Elastic Transcoder can create and process jobs
 
 [Aws pipeline-check-role guide](https://docs.aws.amazon.com/elastictranscoder/latest/developerguide/test-pipeline-role.html)
 
@@ -189,7 +189,7 @@ This endpoint testing the settings for a pipeline to ensure that Elastic Transco
 
 
 #### create-preset
-This endpoint reates a preset with settings that you specify
+This endpoint creates a preset with settings that you specify
 
 [Aws create-preset guide](https://docs.aws.amazon.com/elastictranscoder/latest/developerguide/create-preset.html)
 
@@ -239,7 +239,7 @@ This endpoint removes a pipeline
 | Id  | string   | The identifier of the preset to delete | 5555555555555-abcde5
 
 
-### Contributing
+## Contributing
 
 #### How to Contribute
   * Fork this repository
@@ -252,5 +252,5 @@ This endpoint removes a pipeline
   * Copy contents of `.env-sample` file to newly created `.env` file and assign appropriate values to the listed variables.
 
 #### Testing
-  * Ensure all your test are written on the `test` directory
-  * Use the command `npm test` to run test
+  * Tests are written in the `test` directory
+  * Use the command `npm test` to run tests
