@@ -1,5 +1,5 @@
 import { assert, expect } from 'chai';
-import { run } from 'syncano-test';
+import { run } from '@syncano/test';
 import config from './utils/helpers';
 
 describe('list-jobs-by-status', () => {
