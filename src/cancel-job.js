@@ -1,8 +1,8 @@
-import Syncano from 'syncano-server';
+import Syncano from '@syncano/core';
 import ElasticTranscoder from './utils/ElasticTranscoder';
 
 export default (ctx) => {
-  const { response } = Syncano(ctx);
+  const { response } = new Syncano(ctx);
   const awsElasticTranscoder = new ElasticTranscoder(ctx.config);
 
   return awsElasticTranscoder.callEndpoint('cancelJob', ctx.args, '', true)
