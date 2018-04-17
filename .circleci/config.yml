@@ -56,14 +56,14 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "74:31:78:af:e9:77:a9:27:2f:dd:85:0d:5f:f7:12:0a"
-      - run: sudo npm install syncano-cli@0.55.0 -g
-      - run: SYNCANO_AUTH_KEY=$SYNCANO_AUTH_KEY SYNCANO_HOST=api.syncano.io syncano-cli submit ${SOCKET_NAME} -b patch
-      - run: SYNCANO_AUTH_KEY=$SYNCANO_AUTH_KEY SYNCANO_HOST=api.syncano.io syncano-cli publish ${SOCKET_NAME}
+      - run: sudo npm install @syncano/cli -g
+      - run: SYNCANO_AUTH_KEY=$SYNCANO_AUTH_KEY SYNCANO_HOST=api.syncano.io npx s submit ${SOCKET_NAME} -b patch
+      - run: SYNCANO_AUTH_KEY=$SYNCANO_AUTH_KEY SYNCANO_HOST=api.syncano.io npx s publish ${SOCKET_NAME}
       - run:
           name: Avoid hosts unknown for github
-          command: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+          command: mkdir -p ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
       - run: git config --global user.email $GITHUB_EMAIL && git config --global user.name $GITHUB_NAME
-      - run: git commit -a -m "Bumping version [ci skip]" && echo 'yes' | git push origin $CIRCLE_BRANCH
+      - run: git commit -a -m "Bumping version [ci skip]" && git push origin $CIRCLE_BRANCH
 
 workflows:
   version: 2
